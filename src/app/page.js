@@ -2,7 +2,6 @@
 
 // import { useState, useEffect } from 'react'
 // import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-// import { Facebook, Instagram, Twitter } from "lucide-react"
 
 
 
@@ -44,7 +43,9 @@ export default function Home() {
             #F7F3E9 40px,
             #F7F3E9 80px
           );`
-        }</style>
+        }
+        </style>
+    
     <div className="min-h-screen bg-stripes flex flex-col items-center justify-center p-4">
       <div className="rounded-lg p-8 max-w-md w-full" style={{background: '#F7F3E9'}}>
         <header className="text-center mb-8">
