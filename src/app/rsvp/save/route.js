@@ -39,7 +39,8 @@ function transformDataForHumans(data) {
 
 import { NextResponse } from "next/server";
 
-export const GET = async (req) => {
+export const POST = async (req) => {
+  console.log('IN POST');
   const doc = new GoogleSpreadsheet(process.env.GOOGLE_SPREADSHEET_ID);
   await doc.useServiceAccountAuth({
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -49,14 +50,14 @@ export const GET = async (req) => {
   await doc.loadInfo();
   const sheet = doc.sheetsByTitle["RSVPs"];
 
-//   const body = await req.json();
-//   const { rows = [] } = body;
+  const body = await req.json();
+  const { rows = [] } = body;
 
-//   for (const row of rows) {
-//     await sheet.addRow(formatRow(row));
-//   }
+  for (const row of rows) {
+    await sheet.addRow(formatRow(row));
+  }
 
-sheet.addRow({Name: 'Baby', Attending: 'Y', Email: 'dan@gobloom.io', Phone: '999-555'})
+// sheet.addRow({Name: 'Baby', Attending: 'Y', Email: 'dan@gobloom.io', Phone: '999-555'})
 
   return NextResponse.json(
     { message: "Submission recorded!" },

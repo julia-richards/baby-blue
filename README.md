@@ -1,3 +1,84 @@
+## TODO
+
+RSVP Site
+
+Part 1 - Connect front and backend with mock data
+- Backend
+    - find GET request in /save/route.js
+    - convert to POST (literally change the name)
+
+- Frontend- Add submit function w/ axios or fetch (if axis add as a dependency)- have mocked data and POST to endpoint a la```// 
+TODO: replace keys with header names in google sheetconst asRows = [  { name: ‘Test name’, attending: ‘yes’, contact: ‘some@email.com’ }]
+	const res = await fetch("/rsvp/save", {
+	  method: "POST",
+	  body: JSON.stringify({ rows: asRows }),
+	  headers: { "Content-Type": "application/json" },
+	});	``` 
+- - add <button>Save</button> w/ onClick function that calls above function
+- Basic example: https://github.com/danielpowell4/nuptials/blob/main/src/app/rsvp/RsvpForm.js#L52-L86
+
+- Backend (again)
+- Uncomment lines that parse the data from the client’s callback and transform it (if needed) to the sheet
+- Example: https://github.com/danielpowell4/nuptials/blob/main/src/app/rsvp/save/route.js#L52-L57
+export const POST = async (req) => {
+  const doc = new GoogleSpreadsheet(process.env.GOOGLE_SPREADSHEET_ID);
+  await doc.useServiceAccountAuth({
+    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    private_key: process.env.GOOGLE_SERVICE_PRIVATE_KEY,
+  });
+
+  await doc.loadInfo();
+  const sheet = doc.sheetsByTitle["RSVPs"];
+
+  const body = await req.json();
+  const { rows = [] } = body;
+
+  for (const row of rows) {
+    await sheet.addRow(formatRow(row));
+  }
+
+  return NextResponse.json(
+    { message: "Submission recorded!" },
+    { status: 200 }
+  );
+};
+
+- Test
+    - Click button on frontend, see row with data appears in google sheets
+    - Change mock data (around asRows)… see saves!
+    - When works, make sure to commit + push!
+
+Part 2 - Build form on frontend
+- Determine required fields
+- Determine if you want to use a library or do it with react server actions 
+    - Both are reasonable but a library like formik will be easier to add in client-side validation “quickly”
+- If Formik
+    - Find an example like https://formik.org/docs/examples/field-arrays
+    - Notice that `onSubmit` is an async function (callback from part 1 will go there)
+    - For submit to work in the form, button will need to have `type=“submit”` as a prop!!!
+- If react server actions… find a tutorial!
+    - https://react.dev/reference/react-dom/hooks/useFormStatus
+- Tips
+    - remember that <label>’s should have htmlFor as a prop that is the same as the input’s ID
+    - radio button group’s are a wee bit annoying and should have same name but different value https://formik.org/docs/examples/radio-group
+
+Part 3 -  redirect on success
+- Add ‘thank you’ page (literally a neighboring file to the one you’re working on -> /thank-you/page.js)
+- At bottom of the form submission, IF res.ok then use nextJS’s router to redirect to this new page
+- https://nextjs.org/docs/app/api-reference/functions/use-router#userouter
+
+Part 4 - Client-side Validation
+- Either you’ll do it manually OR you’ll use a tool lip Yup or zod to create a validation schema
+- https://formik.org/docs/guides/validation
+- At bottom of guide, there are some tips on error message display
+    - https://formik.org/docs/guides/validation#displaying-error-messages
+- I’d probably make an ErrorMessage component and pass it the ‘name’ of the field
+
+
+
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

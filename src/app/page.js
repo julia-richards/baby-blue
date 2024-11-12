@@ -1,36 +1,13 @@
 'use client'
 
+import RsvpForm from "./rsvp/RsvpForm"
+
 // import { useState, useEffect } from 'react'
 // import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 
 
 export default function Home() {
-  // const [timeLeft, setTimeLeft] = useState(calculateTimeLeft())
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setTimeLeft(calculateTimeLeft())
-  //   }, 1000)
-
-  //   return () => clearTimeout(timer)
-  // })
-
-  // function calculateTimeLeft() {
-  //   const difference = +new Date("2024-12-31") - +new Date()
-  //   let timeLeft = {}
-
-  //   if (difference > 0) {
-  //     timeLeft = {
-  //       days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-  //       hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-  //       minutes: Math.floor((difference / 1000 / 60) % 60),
-  //       seconds: Math.floor((difference / 1000) % 60)
-  //     }
-  //   }
-
-  //   return timeLeft
-  // }
 
   return (
     <>
@@ -54,9 +31,7 @@ export default function Home() {
         </header>
 
         <div className="space-y-4">
-          <p className="text-center text-gray-600">
-            Our RSVP system is almost ready!
-          </p>
+          <RsvpForm />
         </div>
       </div>
     </div>
