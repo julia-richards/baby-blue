@@ -10,15 +10,6 @@ import * as Yup from 'yup';
 
 import formStyles from "./RsvpForm.module.css";
 
-const emptyGuest = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  phone: "",
-  attending: "yes",
-  guestCount: 1,
-};
-
 const RsvpSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(2, 'Too Short!')
@@ -33,7 +24,12 @@ const RsvpSchema = Yup.object().shape({
 });
 
 const initialValues = {
-  ...emptyGuest,
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  attending: "yes",
+  guestCount: 1,
 };
 
 export default function RsvpForm() {
@@ -145,7 +141,7 @@ export default function RsvpForm() {
                   if (val === 'no') {
                     setFieldValue('guestCount', 0)
                   } else {
-                    setFieldValue('guestCount', 1)
+                    setFieldValue('guestCount', initialValues.guestCount)
                   }
                 }}
                 value={values.attending}

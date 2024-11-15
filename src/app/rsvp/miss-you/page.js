@@ -43,7 +43,7 @@ export default function MissYou() {
           {"We'll Miss You"}
         </h1>
         <p className="text-xl text-gray-700 mb-6">
-          We appreciate your thoughts and well-wishes for our little one!
+          {"We appreciate your thoughts and well-wishes for our little one!"}
         </p>
         <a
           href="https://my.babylist.com/sophie-blue"
