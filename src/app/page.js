@@ -24,10 +24,10 @@ export default function Home() {
         </style>
     
     <div className="min-h-screen bg-stripes flex flex-col items-center justify-center p-4">
-      <div className="rounded-lg p-8 max-w-md w-full" style={{background: '#F7F3E9'}}>
+      <div className="rounded-lg p-8 max-w-lg w-full" style={{background: '#F7F3E9'}}>
         <header className="text-center mb-8">
           <h1 className="text-4xl font-bold text-blue-600">Baby Shower RSVP</h1>
-          <p className="text-xl text-blue-500 mt-2">Coming Soon!</p>
+          <p className="text-xl text-blue-500 mt-2">{"January 19th, 2025"}</p>
         </header>
 
         <div className="space-y-4">

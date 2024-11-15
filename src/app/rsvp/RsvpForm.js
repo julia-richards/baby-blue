@@ -5,7 +5,7 @@ import React from "react";
 import { Button, RadioGroup, NumberField, TextField } from "@/components";
 import { Radio } from "react-aria-components";
 import { useRouter } from "next/navigation";
-import { Formik, Form, FieldArray, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 
 import formStyles from "./RsvpForm.module.css";
 
@@ -55,8 +55,11 @@ export default function RsvpForm() {
                 });
 
                 if (res.ok) {
-                  console.log("Route to thanks");
-                  // router.push("/rsvp/thanks");
+                  if (values.attending === "yes") {
+                    router.push("/rsvp/thanks");
+                  } else {
+                    router.push("/rsvp/miss-you");
+                  }
                 } else {
                   throw new Error("Failed to save RSVP");
                 }
@@ -68,41 +71,47 @@ export default function RsvpForm() {
             }}
           >
             <div className={formStyles.formSection}>
-              <TextField
-                isRequired
-                label="First name"
-                name={`firstName`}
-                value={values.firstName}
-                // className={`react-aria-TextField ${formStyles.GuestItem__name}`}
-                onChange={(val) => setFieldValue(`firstName`, val)}
-                onBlur={() => setFieldTouched(`firstName`)}
-              />
-              <TextField
-                label="Last name"
-                name={`lastName`}
-                value={values.lastName}
-                // className={`react-aria-TextField ${formStyles.GuestItem__name}`}
-                onChange={(val) => setFieldValue(`lastName`, val)}
-                onBlur={() => setFieldTouched(`lastName`)}
-              />
-              <TextField
-                isRequired
-                label="Email"
-                name={`email`}
-                value={values.email}
-                // className={`react-aria-TextField ${formStyles.GuestItem__phone}`}
-                onChange={(val) => setFieldValue(`email`, val)}
-                onBlur={() => setFieldTouched(`email`)}
-              />
-              <TextField
-                isRequired
-                label="Phone"
-                name={`phone`}
-                value={values.phone}
-                // className={`react-aria-TextField ${formStyles.GuestItem__phone}`}
-                onChange={(val) => setFieldValue(`phone`, val)}
-                onBlur={() => setFieldTouched(`phone`)}
-              />
+              <div
+                style={{
+                  display: "flex",
+                  flexFlow: "row wrap",
+                  gap: "1.15rem",
+                  justifyContent: "space-between",
+                }}
+              >
+                <TextField
+                  isRequired
+                  label="First name"
+                  name={`firstName`}
+                  value={values.firstName}
+                  onChange={(val) => setFieldValue(`firstName`, val)}
+                  onBlur={() => setFieldTouched(`firstName`)}
+                />
+                <TextField
+                  isRequired
+                  label="Last name"
+                  name={`lastName`}
+                  value={values.lastName}
+                  onChange={(val) => setFieldValue(`lastName`, val)}
+                  onBlur={() => setFieldTouched(`lastName`)}
+                />
+                <TextField
+                  isRequired
+                  label="Email"
+                  name={`email`}
+                  value={values.email}
+                  onChange={(val) => setFieldValue(`email`, val)}
+                  onBlur={() => setFieldTouched(`email`)}
+                />
+                <TextField
+                  isRequired
+                  label="Phone"
+                  name={`phone`}
+                  value={values.phone}
+                  onChange={(val) => setFieldValue(`phone`, val)}
+                  onBlur={() => setFieldTouched(`phone`)}
+                />
+              </div>
             </div>
             <div className={formStyles.formSection}>
               <h2>Are you able to attend?</h2>
@@ -122,6 +131,7 @@ export default function RsvpForm() {
 
               {values.attending === "yes" && (
                 <NumberField
+                  style={{ marginTop: "1rem" }}
                   label="Number of guests"
                   name={`guestCount`}
                   value={values.guestCount}
