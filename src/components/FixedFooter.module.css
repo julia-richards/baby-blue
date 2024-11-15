@@ -1,0 +1,124 @@
+/* NOTE: media queries are mirrored in 'globals.css' :root variables */
+
+.Nav {
+  position: fixed;
+  z-index: 9;
+  left: 0;
+  bottom: 0;
+  bottom: var(--fixedNavBottom);
+  transition: bottom 0.3s;
+  width: 100%;
+  height: var(--fixedNavHeight);
+  background-color: var(--background-end);
+  border-top: 1px solid var(--hr);
+
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+  justify-content: center;
+}
+
+.Nav ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0;
+  padding: 1rem;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.Nav ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  padding: 0.5rem 0;
+  width: 100%;
+
+  font-family: var(--headingFont);
+  font-weight: 700;
+
+  border: 1px solid var(--mediumText);
+  border-radius: var(--babyRound);
+}
+
+.Nav ul li a {
+  color: var(--mediumText);
+  font-size: 14px;
+}
+
+.ActiveItem {
+  background-color: var(--hr);
+}
+
+.Nav .AccentItem {
+  border: 2px solid var(--primary);
+}
+
+.Nav .AccentItem a {
+  color: var(--primary);
+}
+
+/* 455 -> desktop items fit on one line */
+@media screen and (min-width: 455px) {
+  .Nav ul {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .Nav ul li {
+    height: 100%;
+    width: unset;
+    padding: unset;
+    font-family: unset;
+    font-weight: unset;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    text-align: left;
+    border: none;
+  }
+
+  .Nav ul li a {
+    color: unset;
+    font-size: inherit;
+  }
+
+  .ActiveItem:before {
+    position: absolute;
+    content: "";
+    top: -1px;
+    height: 4px;
+    width: 100%;
+    background-color: var(--primary);
+  }
+
+  .ActiveItem {
+    background-color: unset;
+  }
+
+  .ActiveItem a,
+  .ActiveItem a:visited {
+    color: var(--primary);
+  }
+
+  .ActiveItem a {
+    background-color: inherit;
+  }
+}
+
+/* 1118px also in globals to change --fixedNavHeight */
+@media screen and (min-width: 700px) {
+  .Nav {
+    display: none;
+  }
+}

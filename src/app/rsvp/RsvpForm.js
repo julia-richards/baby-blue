@@ -2,121 +2,145 @@
 
 import React from "react";
 
-import {
-  Button,
-  Form,
-  TextField,
-  Label,
-  Text,
-  Input,
-} from "react-aria-components";
+import { Button, RadioGroup, NumberField, TextField } from "@/components";
+import { Radio } from "react-aria-components";
 import { useRouter } from "next/navigation";
+import { Formik, Form, FieldArray, Field, ErrorMessage } from "formik";
 
 import formStyles from "./RsvpForm.module.css";
 
+const emptyGuest = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  attending: "yes",
+  guestCount: 1,
+};
 
+const initialValues = {
+  ...emptyGuest,
+};
 
 export default function RsvpForm() {
   const router = useRouter();
   const [errorMsg, setErrorMsg] = React.useState();
-  const [isSaving, setIsSaving] = React.useState(false);
-  const [guest, setGuest] = React.useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    attending: "yes",
-  });
 
   return (
-    <Form
-      onSubmit={async (event) => {
-        event.preventDefault();
-        const asRows = [
-          {
-            name: "Test Name",
-            attending: "yes",
-            email: "some@gmail.com",
-            phone: "555-555-5555",
-          },
-        ];
-        setIsSaving(true);
-        try {
-          const res = await fetch("/rsvp/save", {
-            method: "POST",
-            body: JSON.stringify({ rows: asRows }),
-            headers: { "Content-Type": "application/json" },
-          });
+    <Formik initialValues={initialValues}>
+      {({
+        values,
+        setFieldValue,
+        setFieldTouched,
+        isSubmitting,
+        ...formikBag
+      }) => {
+        return (
+          <Form
+            style={{ background: "#F7F3E9" }}
+            onSubmit={async (event) => {
+              event.preventDefault();
 
-          if (res.ok) {
-            // router.push("/rsvp/thanks");
-            console.log("guest", guest);
-            setIsSaving(false);
-          } else {
-            throw new Error("Failed to save RSVP");
-          }
-        } catch (err) {
-          console.error(err);
-          setIsSaving(false);
-          setErrorMsg(err.message);
-        }
+              formikBag.setSubmitting(true);
+              // - loading thanks page
+              router.prefetch("/rsvp/thanks");
+
+              try {
+                console.log("TRY", values);
+
+                const res = await fetch("/rsvp/save", {
+                  method: "POST",
+                  body: JSON.stringify({ row: values }),
+                  headers: { "Content-Type": "application/json" },
+                });
+
+                if (res.ok) {
+                  console.log("Route to thanks");
+                  // router.push("/rsvp/thanks");
+                } else {
+                  throw new Error("Failed to save RSVP");
+                }
+              } catch (err) {
+                console.error(err);
+                setErrorMsg(err.message);
+                formikBag.setSubmitting(false);
+              }
+            }}
+          >
+            <div className={formStyles.formSection}>
+              <TextField
+                isRequired
+                label="First name"
+                name={`firstName`}
+                value={values.firstName}
+                // className={`react-aria-TextField ${formStyles.GuestItem__name}`}
+                onChange={(val) => setFieldValue(`firstName`, val)}
+                onBlur={() => setFieldTouched(`firstName`)}
+              />
+              <TextField
+                label="Last name"
+                name={`lastName`}
+                value={values.lastName}
+                // className={`react-aria-TextField ${formStyles.GuestItem__name}`}
+                onChange={(val) => setFieldValue(`lastName`, val)}
+                onBlur={() => setFieldTouched(`lastName`)}
+              />
+              <TextField
+                isRequired
+                label="Email"
+                name={`email`}
+                value={values.email}
+                // className={`react-aria-TextField ${formStyles.GuestItem__phone}`}
+                onChange={(val) => setFieldValue(`email`, val)}
+                onBlur={() => setFieldTouched(`email`)}
+              />
+              <TextField
+                isRequired
+                label="Phone"
+                name={`phone`}
+                value={values.phone}
+                // className={`react-aria-TextField ${formStyles.GuestItem__phone}`}
+                onChange={(val) => setFieldValue(`phone`, val)}
+                onBlur={() => setFieldTouched(`phone`)}
+              />
+            </div>
+            <div className={formStyles.formSection}>
+              <h2>Are you able to attend?</h2>
+
+              <RadioGroup
+                name={`attending`}
+                orientation="horizontal"
+                onChange={(val) => {
+                  setFieldValue(`attending`, val);
+                  setFieldTouched(`attending`);
+                }}
+                value={values.attending}
+              >
+                <Radio value="yes">Yes</Radio>
+                <Radio value="no">No</Radio>
+              </RadioGroup>
+
+              {values.attending === "yes" && (
+                <NumberField
+                  label="Number of guests"
+                  name={`guestCount`}
+                  value={values.guestCount}
+                  // className={`react-aria-TextField ${formStyles.GuestItem__phone}`}
+                  onChange={(val) => setFieldValue(`guestCount`, val)}
+                  onBlur={() => setFieldTouched(`guestCount`)}
+                />
+              )}
+            </div>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              style={{ color: "black" }}
+            >
+              {isSubmitting ? "..." : "Submit"}
+            </Button>
+          </Form>
+        );
       }}
-    >
-      <div>
-        <TextField
-          value={guest.firstName}
-          style={{ color: "black", marginBottom: 10 }}
-          className={`react-aria-TextField ${formStyles.GuestItem__name}`}
-          onChange={(val) => setGuest({ ...guest, firstName: val })}
-        >
-          <Label style={{ marginRight: 4 }}>Fist Name</Label>
-          <Input />
-        </TextField>
-        <TextField
-          value={guest.lastName}
-          style={{ color: "black", marginBottom: 10 }}
-          className={`react-aria-TextField ${formStyles.GuestItem__name}`}
-          onChange={(val) => setGuest({ ...guest, lastName: val })}
-        >
-          <Label style={{ marginRight: 4 }}>Last Name</Label>
-          <Input />
-        </TextField>
-        <TextField
-          value={guest.attending}
-          style={{ color: "black", marginBottom: 10 }}
-          className={`react-aria-TextField ${formStyles.GuestItem__name}`}
-          onChange={(val) => setGuest({ ...guest, attending: val })}
-        >
-          <Label style={{ marginRight: 4 }}>Attending</Label>
-          <Input />
-        </TextField>
-        <TextField
-          value={guest.email}
-          style={{ color: "black", marginBottom: 10 }}
-          className={`react-aria-TextField ${formStyles.GuestItem__name}`}
-          onChange={(val) => setGuest({ ...guest, email: val })}
-        >
-          <Label style={{ marginRight: 4 }}>Email</Label>
-          <Input />
-        </TextField>
-        <TextField
-          value={guest.phone}
-          style={{ color: "black", marginBottom: 10 }}
-          className={`react-aria-TextField ${formStyles.GuestItem__name}`}
-          onChange={(val) => setGuest({ ...guest, phone: val })}
-        >
-          <Label style={{ marginRight: 4 }}>Phone</Label>
-          <Input />
-        </TextField>
-      </div>
-      <Button
-        style={{ color: "blue" }}
-        type="submit"
-        onInvalid={() => {}}
-        onReset={() => {}}
-      >
-        Submit
-      </Button>
-    </Form>
+    </Formik>
   );
 }

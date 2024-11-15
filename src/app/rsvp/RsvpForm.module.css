@@ -1,32 +1,32 @@
 .formSection {
-    margin-bottom: 1.15rem;
-  }
-  
-  .unstyledList {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .unstyledList li {
-    margin-bottom: 1.15rem;
-  }
-  
-  .unstyledList li:last-of-type {
-    margin-bottom: 0;
-  }
-  
+  margin-bottom: 1.15rem;
+}
+
+.unstyledList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.unstyledList li {
+  margin-bottom: 1.15rem;
+}
+
+.unstyledList li:last-of-type {
+  margin-bottom: 0;
+}
+
+.GuestItem {
+  display: flex;
+  flex-flow: column;
+  gap: 0.5rem;
+  align-items: baseline;
+  color: blueviolet;
+}
+
+@media screen and (min-width: 692px) {
   .GuestItem {
-    display: flex;
-    flex-flow: column;
-    gap: 0.5rem;
-    align-items: baseline;
+    display: grid;
+    grid-template-columns: 1fr 1fr 3fr 2rem;
   }
-  
-  @media screen and (min-width: 692px) {
-    .GuestItem {
-      display: grid;
-      grid-template-columns: 1fr 1fr 3fr 2rem;
-    }
-  }
-  
+}
