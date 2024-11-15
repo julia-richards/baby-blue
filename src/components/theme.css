@@ -78,14 +78,15 @@
   --overlay-background: var(--gray-50);
   --button-background: var(--gray-50);
   --button-background-pressed: var(--background-color);
+  --baby-blue-blue: #4A90E2;
   /* these colors are the same between light and dark themes
    * to ensure contrast with the foreground color */
-  --highlight-background: #6f46ed; /* purple-300 from dark theme, 3.03:1 against background-color */
-  --highlight-background-pressed: #522acd; /* purple-200 from dark theme */
+  --highlight-background: var(--baby-blue-blue); /* purple-300 from dark theme, 3.03:1 against background-color */
+  --highlight-background-pressed: #4a72e2; /* purple-200 from dark theme */
   --highlight-background-invalid: #cc2000; /* red-300 from dark theme */
   --highlight-foreground: white; /* 5.56:1 against highlight-background */
   --highlight-foreground-pressed: #ddd;
-  --highlight-overlay: rgb(from #6f46ed r g b / 15%);
+  --highlight-overlay: rgb(from #4A90E2 r g b / 15%);
   --invalid-color: var(--red-400);
   --invalid-color-pressed: var(--red-500);
 }

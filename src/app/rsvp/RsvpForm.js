@@ -37,7 +37,7 @@ export default function RsvpForm() {
       }) => {
         return (
           <Form
-            style={{ background: "#F7F3E9" }}
+            style={{ background: "#F7F3E9", textAlign: 'left' }}
             onSubmit={async (event) => {
               event.preventDefault();
 

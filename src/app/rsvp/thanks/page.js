@@ -48,7 +48,7 @@ export default function Thanks() {
       ))}
       
       <div className="bg-white bg-opacity-80 p-8 rounded-lg shadow-lg text-center z-10 max-w-md">
-        <h1 className="text-4xl font-bold text-blue-600 mb-4">Thank You!</h1>
+        <h1 className="text-4xl font-bold text-[#4A90E2] mb-4">Thank You!</h1>
         <p className="text-xl text-gray-700 mb-6">
           We're thrilled you'll be joining us to celebrate our little boy!
         </p>
