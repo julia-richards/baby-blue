@@ -23,7 +23,7 @@ export default function RadioGroup({
   ...props
 }) {
   return (
-    <AriaRadioGroup {...props}>
+    <AriaRadioGroup isInvalid={Boolean(errorMessage)} {...props}>
       <Label>{label}</Label>
       {children}
       {description && (

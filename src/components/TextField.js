@@ -15,7 +15,7 @@ export default function TextField({
   ...props
 }) {
   return (
-    <AriaTextField {...props}>
+    <AriaTextField isInvalid={Boolean(errorMessage)} {...props}>
       <Label>{label}</Label>
       <Input />
       {description && <Text slot="description">{description}</Text>}

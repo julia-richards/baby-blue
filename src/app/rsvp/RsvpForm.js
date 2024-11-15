@@ -6,6 +6,7 @@ import { Button, RadioGroup, NumberField, TextField } from "@/components";
 import { Radio } from "react-aria-components";
 import { useRouter } from "next/navigation";
 import { Formik, Form } from "formik";
+import * as Yup from 'yup';
 
 import formStyles from "./RsvpForm.module.css";
 
@@ -18,6 +19,19 @@ const emptyGuest = {
   guestCount: 1,
 };
 
+const RsvpSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Please fill out this field.'),
+  lastName: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Please fill out this field.'),
+  email: Yup.string().email('Invalid email').required('Please fill out this field.'),
+  attending: Yup.string().oneOf(["yes", "no"]),
+});
+
 const initialValues = {
   ...emptyGuest,
 };
@@ -27,9 +41,11 @@ export default function RsvpForm() {
   const [errorMsg, setErrorMsg] = React.useState();
 
   return (
-    <Formik initialValues={initialValues}>
+    <Formik initialValues={initialValues} validationSchema={RsvpSchema}>
       {({
         values,
+        errors,
+        touched,
         setFieldValue,
         setFieldTouched,
         isSubmitting,
@@ -86,6 +102,7 @@ export default function RsvpForm() {
                   value={values.firstName}
                   onChange={(val) => setFieldValue(`firstName`, val)}
                   onBlur={() => setFieldTouched(`firstName`)}
+                  errorMessage={touched.firstName && errors.firstName}
                 />
                 <TextField
                   isRequired
@@ -94,6 +111,7 @@ export default function RsvpForm() {
                   value={values.lastName}
                   onChange={(val) => setFieldValue(`lastName`, val)}
                   onBlur={() => setFieldTouched(`lastName`)}
+                  errorMessage={touched.lastName && errors.lastName}
                 />
                 <TextField
                   isRequired
@@ -102,6 +120,7 @@ export default function RsvpForm() {
                   value={values.email}
                   onChange={(val) => setFieldValue(`email`, val)}
                   onBlur={() => setFieldTouched(`email`)}
+                  errorMessage={touched.email && errors.email}
                 />
                 <TextField
                   isRequired
@@ -110,6 +129,7 @@ export default function RsvpForm() {
                   value={values.phone}
                   onChange={(val) => setFieldValue(`phone`, val)}
                   onBlur={() => setFieldTouched(`phone`)}
+                  errorMessage={touched.phone && errors.phone}
                 />
               </div>
             </div>
@@ -124,6 +144,7 @@ export default function RsvpForm() {
                   setFieldTouched(`attending`);
                 }}
                 value={values.attending}
+                errorMessage={errors.attending}
               >
                 <Radio value="yes">Yes</Radio>
                 <Radio value="no">No</Radio>
@@ -138,6 +159,7 @@ export default function RsvpForm() {
                   // className={`react-aria-TextField ${formStyles.GuestItem__phone}`}
                   onChange={(val) => setFieldValue(`guestCount`, val)}
                   onBlur={() => setFieldTouched(`guestCount`)}
+                  errorMessage={touched.guestCount && errors.guestCount}
                 />
               )}
             </div>
