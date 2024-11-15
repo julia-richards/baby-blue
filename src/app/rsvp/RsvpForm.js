@@ -142,6 +142,11 @@ export default function RsvpForm() {
                 onChange={(val) => {
                   setFieldValue(`attending`, val);
                   setFieldTouched(`attending`);
+                  if (val === 'no') {
+                    setFieldValue('guestCount', 0)
+                  } else {
+                    setFieldValue('guestCount', 1)
+                  }
                 }}
                 value={values.attending}
                 errorMessage={errors.attending}
